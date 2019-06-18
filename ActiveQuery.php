@@ -142,12 +142,8 @@ class ActiveQuery extends Query implements ActiveQueryInterface
             $db = $modelClass::getDb();
         }
 
-        if ($this->type === null) {
-            $this->type = $modelClass::type();
-        }
         if ($this->index === null) {
             $this->index = $modelClass::index();
-            $this->type = $modelClass::type();
         }
         $commandConfig = $db->getQueryBuilder()->build($this);
 
@@ -301,7 +297,6 @@ class ActiveQuery extends Query implements ActiveQueryInterface
         if ($result === false) {
             throw new Exception('Elasticsearch search query failed.', [
                 'index' => $command->index,
-                'type' => $command->type,
                 'query' => $command->queryParts,
                 'options' => $command->options,
             ]);

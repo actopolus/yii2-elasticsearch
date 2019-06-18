@@ -63,16 +63,13 @@ class ActiveFixture extends BaseActiveFixture
     public function init()
     {
         parent::init();
-        if (!isset($this->modelClass) && (!isset($this->index) || !isset($this->type))) {
-            throw new InvalidConfigException('Either "modelClass" or "index" and "type" must be set.');
+        if (!isset($this->modelClass) && (!isset($this->index))) {
+            throw new InvalidConfigException('Either "modelClass" or "index" must be set.');
         }
         /* @var $modelClass ActiveRecord */
         $modelClass = $this->modelClass;
         if ($this->index === null) {
             $this->index = $modelClass::index();
-        }
-        if ($this->type === null) {
-            $this->type = $modelClass::type();
         }
     }
 
@@ -90,9 +87,9 @@ class ActiveFixture extends BaseActiveFixture
         $this->resetIndex();
         $this->data = [];
 
-        $mapping = $this->db->createCommand()->getMapping($this->index, $this->type);
-        if (isset($mapping[$this->index]['mappings'][$this->type]['_id']['path'])) {
-            $idField = $mapping[$this->index]['mappings'][$this->type]['_id']['path'];
+        $mapping = $this->db->createCommand()->getMapping($this->index);
+        if (isset($mapping[$this->index]['mappings']['_id']['path'])) {
+            $idField = $mapping[$this->index]['mappings']['_id']['path'];
         } else {
             $idField = '_id';
         }

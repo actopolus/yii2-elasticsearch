@@ -25,7 +25,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-  - docker pull elasticsearch:5.1
+  - docker pull elasticsearch:7.1
   - docker run -p 9200:9200 -d elasticsearch:5.1 -Etransport.host=127.0.0.1 -Ehttp.publish_host=127.0.0.1
 
 install:

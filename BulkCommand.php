@@ -31,10 +31,6 @@ class BulkCommand extends Component
      */
     public $index;
     /**
-     * @var string Default type to execute the queries on. Defaults to null meaning that type needs to be specified in every action.
-     */
-    public $type;
-    /**
      * @var array|string Actions to be executed in this bulk command, given as either an array of arrays or as one newline-delimited string.
      * All actions except delete span two lines.
      */
@@ -53,14 +49,10 @@ class BulkCommand extends Component
     public function execute()
     {
         //valid endpoints are /_bulk, /{index}/_bulk, and {index}/{type}/_bulk
-        if ($this->index === null && $this->type === null) {
+        if ($this->index === null) {
             $endpoint = ['_bulk'];
-        } elseif ($this->index !== null && $this->type === null) {
-            $endpoint = [$this->index, '_bulk'];
-        } elseif ($this->index !== null && $this->type !== null) {
-            $endpoint = [$this->index, $this->type, '_bulk'];
         } else {
-            throw new InvalidCallException('Invalid endpoint: if type is defined, index must be defined too.');
+            $endpoint = [$this->index, '_bulk'];
         }
 
         if (empty($this->actions)) {
@@ -102,16 +94,12 @@ class BulkCommand extends Component
      * @param string $type Type that the document belogs to. Can be set to null if the command has
      * a default type ([[BulkCommand::$type]]) assigned.
      */
-    public function addDeleteAction($id, $index = null, $type = null)
+    public function addDeleteAction($id, $index = null)
     {
         $actionData = ['_id' => $id];
 
         if (!empty($index)) {
             $actionData['_index'] = $index;
-        }
-
-        if (!empty($type)) {
-            $actionData['_type'] = $type;
         }
 
         $this->addAction(['delete' => $actionData]);
