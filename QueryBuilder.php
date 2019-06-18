@@ -109,7 +109,6 @@ class QueryBuilder extends BaseObject
         return [
             'queryParts' => $parts,
             'index' => $query->index,
-            'type' => $query->type,
             'options' => $options,
         ];
     }

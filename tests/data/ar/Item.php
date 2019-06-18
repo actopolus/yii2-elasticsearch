@@ -29,7 +29,7 @@ class Item extends ActiveRecord
      */
     public static function setUpMapping($command)
     {
-        $command->setMapping(static::index(), static::type(), [
+        $command->setMapping(static::index(), [
             static::type() => [
                 "properties" => [
                     "name" =>        ["type" => "keyword", "index" => "not_analyzed", "store" => true],

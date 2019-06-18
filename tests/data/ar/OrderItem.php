@@ -37,7 +37,7 @@ class OrderItem extends ActiveRecord
      */
     public static function setUpMapping($command)
     {
-        $command->setMapping(static::index(), static::type(), [
+        $command->setMapping(static::index(), [
             static::type() => [
                 "properties" => [
                     "order_id" => ["type" => "integer"],
