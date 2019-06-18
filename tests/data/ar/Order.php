@@ -122,7 +122,7 @@ class Order extends ActiveRecord
      */
     public static function setUpMapping($command)
     {
-        $command->setMapping(static::index(), [
+        $command->setMapping(static::index(), static::type(), [
             static::type() => [
                 'properties' => [
                     'customer_id' => ['type' => 'integer'],

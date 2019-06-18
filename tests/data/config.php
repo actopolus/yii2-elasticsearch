@@ -15,7 +15,7 @@ $config = [
     'elasticsearch' => [
         'autodetectCluster' => false,
         'nodes' => [
-            ['http_address' => 'inet[/10.10.252.26:9200/]'],
+            ['http_address' => 'inet[/127.0.0.1:9200]'],
         ],
     ],
 ];

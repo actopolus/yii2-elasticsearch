@@ -56,7 +56,7 @@ class Connection extends Component
      * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-info.html#cluster-nodes-info
      */
     public $nodes = [
-        ['http_address' => 'inet[/10.10.252.26:9200]'],
+        ['http_address' => 'inet[/127.0.0.1:9200]'],
     ];
     /**
      * @var string the active node. Key of one of the [[nodes]]. Will be randomly selected on [[open()]].
@@ -549,15 +549,6 @@ class Connection extends Component
         } elseif ($responseCode == 404) {
             return false;
         } else {
-            var_dump([
-                'requestMethod' => $method,
-                'requestUrl' => $url,
-                'requestBody' => $requestBody,
-                'responseCode' => $responseCode,
-                'responseHeaders' => $headers,
-                'responseBody' => $this->decodeErrorBody($body),
-            ]);die;
-
             throw new Exception("Elasticsearch request failed with code $responseCode. Response body:\n{$body}", [
                 'requestMethod' => $method,
                 'requestUrl' => $url,
