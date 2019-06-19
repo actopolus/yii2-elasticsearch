@@ -42,12 +42,6 @@ class ActiveFixture extends BaseActiveFixture
      */
     public $index;
     /**
-     * @var string the name of the type that this fixture is about. If this property is not set,
-     * the name will be determined via [[modelClass]].
-     * @see modelClass
-     */
-    public $type;
-    /**
      * @var string|boolean the file path or path alias of the data file that contains the fixture data
      * to be returned by [[getData()]]. If this is not set, it will default to `FixturePath/data/Index/Type.php`,
      * where `FixturePath` stands for the directory containing this fixture class, `Index` stands for the elasticsearch [[index]] name
@@ -63,16 +57,13 @@ class ActiveFixture extends BaseActiveFixture
     public function init()
     {
         parent::init();
-        if (!isset($this->modelClass) && (!isset($this->index) || !isset($this->type))) {
-            throw new InvalidConfigException('Either "modelClass" or "index" and "type" must be set.');
+        if (!isset($this->modelClass) && (!isset($this->index))) {
+            throw new InvalidConfigException('Either "modelClass" or "index" must be set.');
         }
         /* @var $modelClass ActiveRecord */
         $modelClass = $this->modelClass;
         if ($this->index === null) {
             $this->index = $modelClass::index();
-        }
-        if ($this->type === null) {
-            $this->type = $modelClass::type();
         }
     }
 
@@ -90,9 +81,9 @@ class ActiveFixture extends BaseActiveFixture
         $this->resetIndex();
         $this->data = [];
 
-        $mapping = $this->db->createCommand()->getMapping($this->index, $this->type);
-        if (isset($mapping[$this->index]['mappings'][$this->type]['_id']['path'])) {
-            $idField = $mapping[$this->index]['mappings'][$this->type]['_id']['path'];
+        $mapping = $this->db->createCommand()->getMapping($this->index);
+        if (isset($mapping[$this->index]['mappings']['_id']['path'])) {
+            $idField = $mapping[$this->index]['mappings']['_id']['path'];
         } else {
             $idField = '_id';
         }
@@ -109,7 +100,7 @@ class ActiveFixture extends BaseActiveFixture
             }
 
             try {
-                $response = $this->db->createCommand()->insert($this->index, $this->type, $row, $id, $options);
+                $response = $this->db->createCommand()->insert($this->index, $row, $id, $options);
             } catch(\yii\db\Exception $e) {
                 throw new \yii\base\Exception("Failed to insert fixture data \"$alias\": " . $e->getMessage() . "\n" . print_r($e->errorInfo, true), $e->getCode(), $e);
             }
@@ -136,7 +127,7 @@ class ActiveFixture extends BaseActiveFixture
     {
         if ($this->dataFile === null) {
             $class = new \ReflectionClass($this);
-            $dataFile = dirname($class->getFileName()) . "/data/{$this->index}/{$this->type}.php";
+            $dataFile = dirname($class->getFileName()) . "/data/{$this->index}.php";
             return is_file($dataFile) ? require($dataFile) : [];
         } else {
             return parent::getData();
@@ -144,14 +135,13 @@ class ActiveFixture extends BaseActiveFixture
     }
 
     /**
-     * Removes all existing data from the specified index and type.
+     * Removes all existing data from the specified index.
      * This method is called before populating fixture data into the index associated with this fixture.
      */
     protected function resetIndex()
     {
         $this->db->createCommand([
             'index' => $this->index,
-            'type' => $this->type,
             'queryParts' => ['query' => ['match_all' => new \stdClass()]],
         ])->deleteByQuery();
     }

@@ -40,12 +40,10 @@ class Animal extends ActiveRecord
      */
     public static function setUpMapping($command)
     {
-        $command->setMapping(static::index(), static::type(), [
-            static::type() => [
+        $command->setMapping(static::index(), [
                 "properties" => [
                     "type" => ["type" => "string", "index" => "not_analyzed"]
                 ]
-            ]
         ]);
     }
 

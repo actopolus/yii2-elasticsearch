@@ -129,14 +129,6 @@ class Query extends Component implements QueryInterface
     public $index;
 
     /**
-     * @var string|array The type to retrieve data from. This can be a string
-     * representing a single type or a an array of multiple types. If this is
-     * not set, all types are being queried.
-     * @see from()
-     */
-    public $type;
-
-    /**
      * @var integer A search timeout, bounding the search request to be
      * executed within the specified time value and bail with the hits
      * accumulated up to that point when expired. Defaults to no timeout.
@@ -345,8 +337,11 @@ class Query extends Component implements QueryInterface
         if ($this->emulateExecution) {
             return [
                 'hits' => [
-                    'total' => 0,
-                    'hits' => [],
+                    'total' => [
+                        'value'    => 0,
+                        'relation' => 'eq',
+                    ],
+                    'hits'  => [],
                 ],
             ];
         }
@@ -680,20 +675,16 @@ class Query extends Component implements QueryInterface
     }
 
     /**
-     * Sets the index and type to retrieve documents from.
+     * Sets the index to retrieve documents from.
      * @param string|array $index The index to retrieve data from. This can be
      * a string representing a single index or a an array of multiple indexes.
      * If this is `null` it means that all indexes are being queried.
-     * @param string|array $type The type to retrieve data from. This can be a
-     * string representing a single type or a an array of multiple types. If
-     * this is `null` it means that all types are being queried.
      * @return $this the query object itself
      * @see http://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html#search-multi-index-type
      */
-    public function from($index, $type = null)
+    public function from($index)
     {
         $this->index = $index;
-        $this->type = $type;
         return $this;
     }
 

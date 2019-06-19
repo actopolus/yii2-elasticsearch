@@ -40,16 +40,12 @@ class ActiveDataProviderTest extends TestCase
         $customer->id = 3;
         $customer->setAttributes(['email' => 'user3@example.com', 'name' => 'user3', 'address' => 'address3', 'status' => 1], false);
         $customer->save(false);
-
-        $db->createCommand()->flushIndex('yiitest');
     }
-
-    // Tests :
 
     public function testQuery()
     {
         $query = new Query();
-        $query->from('yiitest', 'customer');
+        $query->from('yiitest');
 
         $provider = new ActiveDataProvider([
             'query' => $query,
@@ -92,7 +88,7 @@ class ActiveDataProviderTest extends TestCase
     public function testNonexistentIndex()
     {
         $query = new Query();
-        $query->from('nonexistent', 'nonexistent');
+        $query->from('nonexistent');
 
         $provider = new ActiveDataProvider([
             'query' => $query,

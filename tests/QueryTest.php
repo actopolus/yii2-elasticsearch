@@ -29,18 +29,18 @@ class QueryTest extends TestCase
             ],
         ]);
 
-        $command->insert('yiitest', 'user', ['name' => 'user1', 'email' => 'user1@example.com', 'status' => 1], 1);
-        $command->insert('yiitest', 'user', ['name' => 'user2', 'email' => 'user2@example.com', 'status' => 1], 2);
-        $command->insert('yiitest', 'user', ['name' => 'user3', 'email' => 'user3@example.com', 'status' => 2], 3);
-        $command->insert('yiitest', 'user', ['name' => 'user4', 'email' => 'user4@example.com', 'status' => 1], 4);
-        $command->insert('yiitest', 'user', ['name' => 'user5', 'email' => 'user5@example.com', 'status' => 1], 5);
-        $command->insert('yiitest', 'user', ['name' => 'user6', 'email' => 'user6@example.com', 'status' => 1], 6);
-        $command->insert('yiitest', 'user', ['name' => 'user7', 'email' => 'user7@example.com', 'status' => 2], 7);
-        $command->insert('yiitest', 'user', ['name' => 'user8', 'email' => 'user8@example.com', 'status' => 1], 8);
-        $command->insert('yiitest', 'user', ['name' => 'user9', 'email' => 'user9@example.com', 'status' => 1], 9);
-        $command->insert('yiitest', 'user', ['name' => 'usera', 'email' => 'user10@example.com', 'status' => 1], 10);
-        $command->insert('yiitest', 'user', ['name' => 'userb', 'email' => 'user11@example.com', 'status' => 2], 11);
-        $command->insert('yiitest', 'user', ['name' => 'userc', 'email' => 'user12@example.com', 'status' => 1], 12);
+        $command->insert('yiitest', ['name' => 'user1', 'email' => 'user1@example.com', 'status' => 1], 1);
+        $command->insert('yiitest', ['name' => 'user2', 'email' => 'user2@example.com', 'status' => 1], 2);
+        $command->insert('yiitest', ['name' => 'user3', 'email' => 'user3@example.com', 'status' => 2], 3);
+        $command->insert('yiitest', ['name' => 'user4', 'email' => 'user4@example.com', 'status' => 1], 4);
+        $command->insert('yiitest', ['name' => 'user5', 'email' => 'user5@example.com', 'status' => 1], 5);
+        $command->insert('yiitest', ['name' => 'user6', 'email' => 'user6@example.com', 'status' => 1], 6);
+        $command->insert('yiitest', ['name' => 'user7', 'email' => 'user7@example.com', 'status' => 2], 7);
+        $command->insert('yiitest', ['name' => 'user8', 'email' => 'user8@example.com', 'status' => 1], 8);
+        $command->insert('yiitest', ['name' => 'user9', 'email' => 'user9@example.com', 'status' => 1], 9);
+        $command->insert('yiitest', ['name' => 'usera', 'email' => 'user10@example.com', 'status' => 1], 10);
+        $command->insert('yiitest', ['name' => 'userb', 'email' => 'user11@example.com', 'status' => 2], 11);
+        $command->insert('yiitest', ['name' => 'userc', 'email' => 'user12@example.com', 'status' => 1], 12);
 
         $command->flushIndex();
     }

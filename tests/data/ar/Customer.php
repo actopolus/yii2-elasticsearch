@@ -74,16 +74,15 @@ class Customer extends ActiveRecord
      */
     public static function setUpMapping($command)
     {
-        $command->setMapping(static::index(), static::type(), [
+        $command->setMapping(static::index(), [
             "properties" => [
                 "id" => ["type"=>"integer", "store" => true],
-                "name" => ["type" => "keyword", "index" => "not_analyzed", "store" => true],
-                "email" => ["type" => "keyword", "index" => "not_analyzed", "store" => true],
-                "address" => ["type" => "text", "index" => "analyzed"],
+                "name" => ["type" => "keyword", "index" => "true", "store" => true],
+                "email" => ["type" => "keyword", "index" => "true", "store" => true],
+                "address" => ["type" => "text", "index" => "true"],
                 "status" => ["type" => "integer", "store" => true],
             ]
         ]);
-
     }
 
     /**

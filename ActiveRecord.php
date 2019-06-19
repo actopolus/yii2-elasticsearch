@@ -147,7 +147,7 @@ class ActiveRecord extends BaseActiveRecord
             return null;
         }
         $command = static::getDb()->createCommand();
-        $result = $command->get(static::index(), static::type(), $primaryKey, $options);
+        $result = $command->get(static::index(), $primaryKey, $options);
         if ($result['found']) {
             $model = static::instantiate($result);
             static::populateRecord($model, $result);
@@ -181,7 +181,7 @@ class ActiveRecord extends BaseActiveRecord
         }
 
         $command = static::getDb()->createCommand();
-        $result = $command->mget(static::index(), static::type(), $primaryKeys, $options);
+        $result = $command->mget(static::index(), $primaryKeys, $options);
         $models = [];
         foreach ($result['docs'] as $doc) {
             if ($doc['found']) {
@@ -335,14 +335,6 @@ class ActiveRecord extends BaseActiveRecord
     }
 
     /**
-     * @return string the name of the type of this record.
-     */
-    public static function type()
-    {
-        return Inflector::camel2id(StringHelper::basename(get_called_class()), '-');
-    }
-
-    /**
      * @inheritdoc
      *
      * @param ActiveRecord $record the record to be populated. In most cases this will be an instance
@@ -465,7 +457,6 @@ class ActiveRecord extends BaseActiveRecord
 
         $response = static::getDb()->createCommand()->insert(
             static::index(),
-            static::type(),
             $values,
             $this->getPrimaryKey(),
             $options
@@ -562,7 +553,6 @@ class ActiveRecord extends BaseActiveRecord
         try {
             $result = static::getDb()->createCommand()->update(
                 static::index(),
-                static::type(),
                 $this->getOldPrimaryKey(false),
                 $values,
                 $options
@@ -645,7 +635,6 @@ class ActiveRecord extends BaseActiveRecord
 
         $bulkCommand = static::getDb()->createBulkCommand([
             "index" => static::index(),
-            "type" => static::type(),
         ]);
         foreach ($primaryKeys as $pk) {
             $bulkCommand->addAction(["update" => ["_id" => $pk]], ["doc" => $attributes]);
@@ -693,7 +682,6 @@ class ActiveRecord extends BaseActiveRecord
 
         $bulkCommand = static::getDb()->createBulkCommand([
             "index" => static::index(),
-            "type" => static::type(),
         ]);
         foreach ($primaryKeys as $pk) {
             $script = '';
@@ -772,7 +760,6 @@ class ActiveRecord extends BaseActiveRecord
         try {
             $result = static::getDb()->createCommand()->delete(
                 static::index(),
-                static::type(),
                 $this->getOldPrimaryKey(false),
                 $options
             );
@@ -821,7 +808,6 @@ class ActiveRecord extends BaseActiveRecord
 
         $bulkCommand = static::getDb()->createBulkCommand([
             "index" => static::index(),
-            "type" => static::type(),
         ]);
         foreach ($primaryKeys as $pk) {
             $bulkCommand->addDeleteAction($pk);

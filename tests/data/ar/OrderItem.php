@@ -37,15 +37,13 @@ class OrderItem extends ActiveRecord
      */
     public static function setUpMapping($command)
     {
-        $command->setMapping(static::index(), static::type(), [
-            static::type() => [
+        $command->setMapping("order_item", [
                 "properties" => [
                     "order_id" => ["type" => "integer"],
                     "item_id"  => ["type" => "integer"],
                     "quantity" => ["type" => "integer"],
                     "subtotal" => ["type" => "integer"],
                 ]
-            ]
         ]);
 
     }
