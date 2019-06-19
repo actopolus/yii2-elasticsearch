@@ -62,6 +62,29 @@ class Command extends Component
     }
 
     /**
+     * Sends a request to the _search API and returns the result
+     * @param array $options
+     * @return mixed
+     */
+    public function count($options = [])
+    {
+        $query = $this->queryParts;
+
+        if (isset($query['size'])) {
+            unset($query['size']);
+        }
+
+        if (is_array($query)) {
+            $query = Json::encode($query);
+        }
+
+        $url = [$this->index !== null ? $this->index : '_all'];
+        $url[] = '_count';
+
+        return $this->db->get($url, array_merge($this->options, $options), $query);
+    }
+
+    /**
      * Sends a request to the delete by query
      * @param array $options
      * @return mixed
