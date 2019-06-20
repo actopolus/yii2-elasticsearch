@@ -229,12 +229,12 @@ class ActiveRecordTest extends TestCase
 
         // limit vs. totalcount
         $customers = Customer::find()->limit(2)->search()['hits'];
-        $this->assertEquals(3, $customers['total']);
+        $this->assertEquals(3, $customers['total']['value']);
         $this->assertCount(2, $customers['hits']);
 
         // asArray
         $result = Customer::find()->asArray()->search()['hits'];
-        $this->assertEquals(3, $result['total']);
+        $this->assertEquals(3, $result['total']['value']);
         $customers = $result['hits'];
         $this->assertCount(3, $customers);
         $this->assertArrayHasKey('id', $customers[0]['_source']);

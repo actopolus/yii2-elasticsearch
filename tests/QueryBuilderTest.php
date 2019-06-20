@@ -34,10 +34,10 @@ class QueryBuilderTest extends TestCase
     private function prepareDbData()
     {
         $command = $this->getConnection()->createCommand();
-        $command->insert('yiitest', 'article', ['title' => 'I love yii!', 'weight' => 1, 'created_at' => '2010-01-10'], 1);
-        $command->insert('yiitest', 'article', ['title' => 'Symfony2 is another framework', 'weight' => 2, 'created_at' => '2010-01-15'], 2);
-        $command->insert('yiitest', 'article', ['title' => 'Yii2 out now!', 'weight' => 3, 'created_at' => '2010-01-20'], 3);
-        $command->insert('yiitest', 'article', ['title' => 'yii test', 'weight' => 4, 'created_at' => '2012-05-11'], 4);
+        $command->insert('yiitest', ['title' => 'I love yii!', 'weight' => 1, 'created_at' => '2010-01-10'], 1);
+        $command->insert('yiitest', ['title' => 'Symfony2 is another framework', 'weight' => 2, 'created_at' => '2010-01-15'], 2);
+        $command->insert('yiitest', ['title' => 'Yii2 out now!', 'weight' => 3, 'created_at' => '2010-01-20'], 3);
+        $command->insert('yiitest', ['title' => 'yii test', 'weight' => 4, 'created_at' => '2012-05-11'], 4);
 
         $command->flushIndex('yiitest');
     }
